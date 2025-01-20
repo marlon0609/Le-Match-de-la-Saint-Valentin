@@ -15,6 +15,7 @@ body {
     margin: 20px auto;
     max-width: 600px;
     animation: fadeIn 2s ease-in-out;
+    border: 3px solid #ff66cc; /* Bordure rose */
 }
 
 .title {
@@ -72,11 +73,13 @@ body {
     border-radius: 30px;
     font-size: 1rem;
     transition: transform 0.2s ease, background-color 0.2s ease;
+    border: 2px solid #ff66cc; /* Bordure autour des boutons */
 }
 
 .answers button:hover {
     background-color: #d63384;
     transform: scale(1.1);
+    border-color: #ff66cc; /* Bordure qui change de couleur au survol */
 }
 
 @keyframes fadeIn {
@@ -91,34 +94,72 @@ body {
 }
 
 
-/* Ajout d'une bordure et d'une ombre au header */
-.valentine-header {
-    padding: 50px 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    margin: 20px auto;
-    max-width: 600px;
-    animation: fadeIn 2s ease-in-out;
-    border: 3px solid #ff66cc; /* Bordure rose */
-}
 
-/* Style pour les boutons de réponse */
-.answers button {
-    background-color: #ff4d4d;
+/* Animation pour afficher la bonne ou mauvaise réponse */
+.response-message {
+    font-size: 1.5rem;
+    font-weight: bold;
     color: white;
-    margin: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 30px;
-    font-size: 1rem;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    border: 2px solid #ff66cc; /* Bordure autour des boutons */
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    z-index: 1000;
+    animation: fadeInOut 3s forwards;
 }
 
-/* Effet au survol des boutons de réponse */
-.answers button:hover {
-    background-color: #d63384;
-    transform: scale(1.1);
-    border-color: #ff66cc; /* Bordure qui change de couleur au survol */
+/* Animation pour faire apparaître/disparaître les messages de réponse */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    30% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+}
+
+/* Style pour l'affichage du score final avec animation */
+.final-score {
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 20px;
+    background-color: #ff66cc;
+    color: white;
+    border-radius: 10px;
+    margin-top: 30px;
+    animation: slideIn 1s ease-out;
+}
+
+/* Animation pour faire glisser le score */
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Ajout d'une bordure à la fin du score, en fonction du résultat */
+.win {
+    background-color: #28a745; /* Vert pour la victoire */
+}
+
+.lose {
+    background-color: #dc3545; /* Rouge pour la défaite */
 }

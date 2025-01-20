@@ -3,6 +3,8 @@ const gameArea = document.getElementById('gameArea');
 const questionSection = document.getElementById('questionSection');
 const questionText = document.getElementById('question');
 const answersDiv = document.getElementById('answers');
+const responseMessageDiv = document.createElement('div');
+document.body.appendChild(responseMessageDiv); // Ajoute le message de réponse à la page
 
 let currentQuestionIndex = 0;
 let score = 0;
@@ -38,7 +40,79 @@ const questions = [
         ],
         correct: 2,
     },
+    {
+        question: "Quel est le symbole principal de la Saint-Valentin ?",
+        answers: [
+            "Le cœur",
+            "Le trèfle",
+            "La rose",
+            "Le diamant",
+        ],
+        correct: 1,
+    },
+    {
+        question: "Quelle est la date exacte de la Saint-Valentin ?",
+        answers: [
+            "14 février",
+            "1er décembre",
+            "25 décembre",
+            "31 octobre",
+        ],
+        correct: 1,
+    },
+    // Questions supplémentaires
+    {
+        question: "Quelle ville est considérée comme la ville de l'amour ?",
+        answers: [
+            "Paris",
+            "Venise",
+            "Rome",
+            "New York",
+        ],
+        correct: 1,
+    },
+    {
+        question: "Quel est le film romantique le plus célèbre ?",
+        answers: [
+            "Titanic",
+            "La La Land",
+            "Dirty Dancing",
+            "The Notebook",
+        ],
+        correct: 1,
+    },
+    {
+        question: "Quel est le plat préféré pour un dîner de Saint-Valentin ?",
+        answers: [
+            "Pâtes aux truffes",
+            "Pizza",
+            "Sushi",
+            "Burgers",
+        ],
+        correct: 1,
+    },
+    {
+        question: "Quel est l'animal symbolisant l'amour et la fidélité ?",
+        answers: [
+            "Le chien",
+            "Le cheval",
+            "Le pigeon",
+            "Le chat",
+        ],
+        correct: 3,
+    },
+    {
+        question: "Quel est le parfum de rose le plus populaire ?",
+        answers: [
+            "Rose rouge",
+            "Rose blanche",
+            "Rose jaune",
+            "Rose rose",
+        ],
+        correct: 1,
+    }
 ];
+
 
 function loadQuestion(index) {
     const question = questions[index];
@@ -55,12 +129,25 @@ function loadQuestion(index) {
 }
 
 function checkAnswer(selected) {
-    if (selected === questions[currentQuestionIndex].correct) {
+    const currentQuestion = questions[currentQuestionIndex];
+    let responseMessage = '';
+    if (selected === currentQuestion.correct) {
         score += 10;
-        alert('Bonne réponse !');
+        responseMessage = 'Bonne réponse !';
+        responseMessageDiv.className = 'response-message';
+        responseMessageDiv.textContent = responseMessage;
+        responseMessageDiv.style.backgroundColor = '#28a745'; // Vert pour bonne réponse
     } else {
-        alert('Mauvaise réponse.');
+        responseMessage = 'Mauvaise réponse.';
+        responseMessageDiv.className = 'response-message';
+        responseMessageDiv.textContent = responseMessage;
+        responseMessageDiv.style.backgroundColor = '#dc3545'; // Rouge pour mauvaise réponse
     }
+
+    // Masquer la réponse après un court délai
+    setTimeout(() => {
+        responseMessageDiv.style.opacity = 0;
+    }, 2500);
 
     currentQuestionIndex++;
     if (currentQuestionIndex < questions.length) {
@@ -71,8 +158,21 @@ function checkAnswer(selected) {
 }
 
 function endGame() {
-    alert(`Jeu terminé ! Votre score final est de : ${score}`);
-    gameArea.style.display = 'none';
+    const finalMessage = document.createElement('div');
+    finalMessage.classList.add('final-score');
+    finalMessage.textContent = `Votre score final est de : ${score}`;
+
+    // Vérifier si le joueur a gagné ou perdu
+    if (score >= 40) {
+        finalMessage.classList.add('win');
+        finalMessage.textContent += " 🎉 Félicitations, vous avez gagné ! 🎉";
+    } else {
+        finalMessage.classList.add('lose');
+        finalMessage.textContent += " 😢 Désolé, vous avez perdu... 😢";
+    }
+
+    gameArea.appendChild(finalMessage);
+    gameArea.style.display = 'block';
     startButton.style.display = 'block';
 }
 
