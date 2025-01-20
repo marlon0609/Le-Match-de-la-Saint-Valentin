@@ -1,41 +1,91 @@
 body {
-    background-color: #ffe6f0;
-    color: #d63384;
+    background: linear-gradient(120deg, #ff4d4d, #ffe6e6);
+    color: #000;
     font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
     text-align: center;
-    padding: 20px;
+}
+
+.valentine-header {
+    padding: 50px 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    max-width: 600px;
+    animation: fadeIn 2s ease-in-out;
 }
 
 .title {
-    margin-top: 50px;
-    font-size: 2.5rem;
+    font-size: 3rem;
+    color: #ff0000;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .description {
-    margin: 20px 0;
     font-size: 1.2rem;
+    color: #333;
 }
 
-.play-button {
-    margin-top: 30px;
+.start-button {
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.start-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.5);
 }
 
 .game-area {
     display: none;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
-.score {
+.question-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.question {
     font-size: 1.5rem;
+    font-weight: bold;
     margin-bottom: 20px;
 }
 
-.target {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    background-color: red;
-    border-radius: 50%;
-    cursor: pointer;
+.answers button {
+    background-color: #ff4d4d;
+    color: white;
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.answers button:hover {
+    background-color: #d63384;
+    transform: scale(1.1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

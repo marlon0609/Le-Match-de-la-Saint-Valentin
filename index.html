@@ -5,21 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Match de la Saint-Valentin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">Le Match de la Saint-Valentin</h1>
-        <p class="description">Aidez Cupidon à créer des couples parfaits (ou pas !) dans ce jeu drôle et amusant. Cliquez sur jouer pour commencer l'aventure !</p>
-        <button class="btn btn-primary btn-lg play-button" id="startGame">Jouer maintenant</button>
+    <div class="container text-center">
+        <div class="valentine-header">
+            <h1 class="title">💖 Le Match de la Saint-Valentin 💖</h1>
+            <p class="description">Testez vos connaissances romantiques et amusez-vous avec ce quiz spécial !</p>
+        </div>
+        <button class="btn btn-danger btn-lg start-button" id="startGame">💘 Commencer le jeu 💘</button>
 
         <div class="game-area" id="gameArea">
-            <p class="score" id="score">Score : 0</p>
-            <div class="target" id="target"></div>
+            <div class="question-section" id="questionSection">
+                <p class="question" id="question">Question ici...</p>
+                <div class="answers" id="answers"></div>
+            </div>
         </div>
     </div>
-
     <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
