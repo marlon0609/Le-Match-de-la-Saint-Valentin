@@ -34,7 +34,7 @@ body {
     background-color: #ff0000;
     color: #fff;
     border: none;
-    padding: 15px 30px;
+    padding: 30px 30px;
     font-size: 1.2rem;
     border-radius: 50px;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
