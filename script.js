@@ -114,37 +114,21 @@ const questions = [
 ];
 
 
-function loadQuestion(index) {
-    const question = questions[index];
-    questionText.textContent = question.question;
-    answersDiv.innerHTML = '';
-    question.answers.forEach((answer, i) => {
-        const button = document.createElement('button');
-        button.textContent = answer;
-        button.className = 'btn';
-        button.dataset.answer = i + 1;
-        button.addEventListener('click', () => checkAnswer(i + 1));
-        answersDiv.appendChild(button);
-    });
-}
-
 function checkAnswer(selected) {
     const currentQuestion = questions[currentQuestionIndex];
     let responseMessage = '';
     if (selected === currentQuestion.correct) {
         score += 10;
         responseMessage = 'Bonne réponse !';
-        responseMessageDiv.className = 'response-message';
-        responseMessageDiv.textContent = responseMessage;
-        responseMessageDiv.style.backgroundColor = '#28a745'; // Vert pour bonne réponse
+        responseMessageDiv.style.backgroundColor = '#28a745';
     } else {
         responseMessage = 'Mauvaise réponse.';
-        responseMessageDiv.className = 'response-message';
-        responseMessageDiv.textContent = responseMessage;
-        responseMessageDiv.style.backgroundColor = '#dc3545'; // Rouge pour mauvaise réponse
+        responseMessageDiv.style.backgroundColor = '#dc3545';
     }
 
-    // Masquer la réponse après un court délai
+    responseMessageDiv.textContent = responseMessage;
+    responseMessageDiv.className = 'response-message';
+
     setTimeout(() => {
         responseMessageDiv.style.opacity = 0;
     }, 2500);
@@ -159,10 +143,9 @@ function checkAnswer(selected) {
 
 function endGame() {
     const finalMessage = document.createElement('div');
-    finalMessage.classList.add('final-score');
+    finalMessage.className = 'final-score';
     finalMessage.textContent = `Votre score final est de : ${score}`;
 
-    // Vérifier si le joueur a gagné ou perdu
     if (score >= 40) {
         finalMessage.classList.add('win');
         finalMessage.textContent += " 🎉 Félicitations, vous avez gagné ! 🎉";
@@ -172,8 +155,6 @@ function endGame() {
     }
 
     gameArea.appendChild(finalMessage);
-    gameArea.style.display = 'block';
-    startButton.style.display = 'block';
 }
 
 startButton.addEventListener('click', () => {

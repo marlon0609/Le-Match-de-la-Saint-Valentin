@@ -1,3 +1,4 @@
+/* Corps de la page */
 body {
     background: linear-gradient(120deg, #ff4d4d, #ffe6e6);
     color: #000;
@@ -7,6 +8,7 @@ body {
     text-align: center;
 }
 
+/* En-tête de la Saint-Valentin */
 .valentine-header {
     padding: 50px 20px;
     background-color: #fff;
@@ -30,11 +32,12 @@ body {
     color: #333;
 }
 
+/* Bouton de démarrage */
 .start-button {
     background-color: #ff0000;
     color: #fff;
     border: none;
-    padding: 30px 30px;
+    padding: 20px 40px;
     font-size: 1.2rem;
     border-radius: 50px;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -45,6 +48,7 @@ body {
     box-shadow: 0 5px 15px rgba(255, 0, 0, 0.5);
 }
 
+/* Zone de jeu */
 .game-area {
     display: none;
     margin-top: 30px;
@@ -64,6 +68,7 @@ body {
     margin-bottom: 20px;
 }
 
+/* Boutons de réponse */
 .answers button {
     background-color: #ff4d4d;
     color: white;
@@ -82,6 +87,7 @@ body {
     border-color: #ff66cc; /* Bordure qui change de couleur au survol */
 }
 
+/* Animation fadeIn */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -93,9 +99,7 @@ body {
     }
 }
 
-
-
-/* Animation pour afficher la bonne ou mauvaise réponse */
+/* Messages de réponse (Bonne ou Mauvaise) */
 .response-message {
     font-size: 1.5rem;
     font-weight: bold;
@@ -112,7 +116,6 @@ body {
     animation: fadeInOut 3s forwards;
 }
 
-/* Animation pour faire apparaître/disparaître les messages de réponse */
 @keyframes fadeInOut {
     0% {
         opacity: 0;
@@ -131,7 +134,7 @@ body {
     }
 }
 
-/* Style pour l'affichage du score final avec animation */
+/* Score final */
 .final-score {
     font-size: 2rem;
     font-weight: bold;
@@ -143,7 +146,6 @@ body {
     animation: slideIn 1s ease-out;
 }
 
-/* Animation pour faire glisser le score */
 @keyframes slideIn {
     from {
         transform: translateY(-20px);
@@ -155,11 +157,16 @@ body {
     }
 }
 
-/* Ajout d'une bordure à la fin du score, en fonction du résultat */
 .win {
     background-color: #28a745; /* Vert pour la victoire */
 }
 
 .lose {
     background-color: #dc3545; /* Rouge pour la défaite */
+}
+
+/* Animation Lottie */
+.img-holder {
+    text-align: center;
+    margin-top: 20px;
 }
