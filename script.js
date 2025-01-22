@@ -3,6 +3,8 @@ const gameArea = document.getElementById('gameArea');
 const questionSection = document.getElementById('questionSection');
 const questionText = document.getElementById('question');
 const answersDiv = document.getElementById('answers');
+
+// Ajoute un conteneur pour les messages de réponse
 const responseMessageDiv = document.createElement('div');
 document.body.appendChild(responseMessageDiv); // Ajoute le message de réponse à la page
 
@@ -114,47 +116,65 @@ const questions = [
 ];
 
 
-function checkAnswer(selected) {
-    const currentQuestion = questions[currentQuestionIndex];
-    let responseMessage = '';
-    if (selected === currentQuestion.correct) {
-        score += 10;
-        responseMessage = 'Bonne réponse !';
-        responseMessageDiv.style.backgroundColor = '#28a745';
-    } else {
-        responseMessage = 'Mauvaise réponse.';
-        responseMessageDiv.style.backgroundColor = '#dc3545';
+function loadQuestion(index) {
+    if (index >= questions.length) {
+        endGame();
+        return;
     }
 
-    responseMessageDiv.textContent = responseMessage;
-    responseMessageDiv.className = 'response-message';
+    const question = questions[index];
+    questionText.textContent = question.question;
 
+    // Vide les réponses précédentes
+    answersDiv.innerHTML = '';
+
+    // Génère les réponses
+    question.answers.forEach((answer, i) => {
+        const button = document.createElement('button');
+        button.textContent = answer;
+        button.className = 'btn btn-answer';
+        button.dataset.index = i;
+        button.addEventListener('click', () => checkAnswer(i));
+        answersDiv.appendChild(button);
+    });
+}
+
+function checkAnswer(selectedIndex) {
+    const currentQuestion = questions[currentQuestionIndex];
+
+    // Affiche un message selon la réponse
+    if (selectedIndex === currentQuestion.correct) {
+        showResponseMessage("Bonne réponse ! 🎉", "success");
+        score += 10; // Ajoute des points pour une bonne réponse
+    } else {
+        showResponseMessage("Mauvaise réponse... 😢", "danger");
+    }
+
+    // Passe à la question suivante après un délai
+    setTimeout(() => {
+        currentQuestionIndex++;
+        loadQuestion(currentQuestionIndex);
+    }, 2000);
+}
+
+function showResponseMessage(message, type) {
+    responseMessageDiv.textContent = message;
+    responseMessageDiv.className = `response-message alert alert-${type}`;
+    responseMessageDiv.style.opacity = 1;
+
+    // Cache le message après 2 secondes
     setTimeout(() => {
         responseMessageDiv.style.opacity = 0;
-    }, 2500);
-
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-        loadQuestion(currentQuestionIndex);
-    } else {
-        endGame();
-    }
+    }, 1500);
 }
 
 function endGame() {
-    const finalMessage = document.createElement('div');
-    finalMessage.className = 'final-score';
-    finalMessage.textContent = `Votre score final est de : ${score}`;
-
-    if (score >= 40) {
-        finalMessage.classList.add('win');
-        finalMessage.textContent += " 🎉 Félicitations, vous avez gagné ! 🎉";
-    } else {
-        finalMessage.classList.add('lose');
-        finalMessage.textContent += " 😢 Désolé, vous avez perdu... 😢";
-    }
-
-    gameArea.appendChild(finalMessage);
+    gameArea.innerHTML = `
+        <div class="final-score">
+            <p>Votre score final est de : ${score}</p>
+            ${score >= 20 ? "🎉 Félicitations, vous avez gagné ! 🎉" : "😢 Vous avez perdu. Réessayez !"}
+        </div>
+    `;
 }
 
 startButton.addEventListener('click', () => {
