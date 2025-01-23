@@ -176,7 +176,7 @@ function endGame() {
         <div class="final-score alert alert-info text-center">
             <h2>Fin du jeu !</h2>
             <p>Votre score final est de : <strong>${score}</strong></p>
-            <p>${score >= 20 ? "🎉 Félicitations, vous êtes un expert en amour ! 🎉" : "😢 Vous pouvez faire mieux. Réessayez !"}</p>
+            <p>${score >= 50 ? "🎉 Félicitations, vous êtes un expert en amour ! 😍" : "😢 Vous pouvez faire mieux. Réessayez !"}</p>
             <button class="btn btn-primary" onclick="restartGame()">Rejouer</button>
         </div>
     `;
