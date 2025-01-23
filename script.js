@@ -177,15 +177,30 @@ function endGame() {
             <h2>Fin du jeu !</h2>
             <p>Votre score final est de : <strong>${score}</strong></p>
             <p>${score >= 50 ? "🎉 Félicitations, vous êtes un expert en amour ! 😍" : "😢 Vous pouvez faire mieux. Réessayez !"}</p>
-            <button class="btn btn-primary" onclick="restartGame()">Rejouer</button>
+            <button id="restartButton" class="btn btn-primary">Rejouer</button>
         </div>
     `;
+
+    // Ajoute un écouteur d'événements pour le bouton "Rejouer"
+    const restartButton = document.getElementById('restartButton');
+    restartButton.addEventListener('click', restartGame);
 }
 
 function restartGame() {
-    currentQuestionIndex = 0;
-    score = 0;
-    gameArea.style.display = 'block';
+    currentQuestionIndex = 0; // Réinitialise l'index de la question
+    score = 0; // Réinitialise le score
+    responseMessageDiv.textContent = ''; // Vide les messages de réponse
+    responseMessageDiv.style.opacity = 0; // Cache le conteneur des messages
+
+    // Réinitialise l'interface du jeu
+    gameArea.innerHTML = `
+        <div id="questionSection">
+            <h3 id="question"></h3>
+            <div id="answers" class="answers"></div>
+        </div>
+    `;
+    
+    // Recharge la première question
     loadQuestion(currentQuestionIndex);
 }
 
