@@ -189,25 +189,26 @@ function endGame() {
 function restartGame() {
     currentQuestionIndex = 0; // Réinitialise l'index de la question
     score = 0; // Réinitialise le score
-    responseMessageDiv.textContent = ''; // Vide les messages de réponse
-    responseMessageDiv.style.opacity = 0; // Cache le conteneur des messages
-
-    // Réinitialise l'interface du jeu
+    responseMessageDiv.textContent = ''; // Vide le message de réponse
+    responseMessageDiv.style.opacity = 0; // Cache les messages de réponse
+    
+    // Réinitialise l'interface de jeu
     gameArea.innerHTML = `
         <div id="questionSection">
             <h3 id="question"></h3>
             <div id="answers" class="answers"></div>
         </div>
     `;
-    
-    // Recharge la première question
+
+    // Relance le jeu
     loadQuestion(currentQuestionIndex);
 }
 
 startButton.addEventListener('click', () => {
-    startButton.style.display = 'none';
-    gameArea.style.display = 'block';
-    currentQuestionIndex = 0;
-    score = 0;
-    loadQuestion(currentQuestionIndex);
+    startButton.style.display = 'none'; // Cache le bouton "Démarrer"
+    gameArea.style.display = 'block'; // Affiche la zone de jeu
+    currentQuestionIndex = 0; // Réinitialise l'index des questions
+    score = 0; // Réinitialise le score
+    loadQuestion(currentQuestionIndex); // Charge la première question
 });
+
