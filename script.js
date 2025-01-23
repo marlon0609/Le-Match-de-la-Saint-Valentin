@@ -15,8 +15,8 @@ const questions = [
     {
         question: "Quel est le cadeau le plus romantique pour la Saint-Valentin ?",
         answers: [
-            "Un bouquet de roses rouges",
             "Un abonnement Netflix",
+            "Un bouquet de roses rouges",
             "Une boîte de chocolats",
             "Un poème manuscrit",
         ],
@@ -30,14 +30,14 @@ const questions = [
             "Une baguette magique",
             "Un lance-pierre",
         ],
-        correct: 1,
+        correct: 0,
     },
     {
         question: "Quelle couleur est associée à la Saint-Valentin ?",
         answers: [
             "Bleu",
-            "Rouge",
             "Vert",
+            "Rouge",
             "Noir",
         ],
         correct: 2,
@@ -45,8 +45,8 @@ const questions = [
     {
         question: "Quel est le symbole principal de la Saint-Valentin ?",
         answers: [
+            "Le boucheon",
             "Le cœur",
-            "Le trèfle",
             "La rose",
             "Le diamant",
         ],
@@ -60,18 +60,18 @@ const questions = [
             "25 décembre",
             "31 octobre",
         ],
-        correct: 1,
+        correct: 0,
     },
     // Questions supplémentaires
     {
         question: "Quelle ville est considérée comme la ville de l'amour ?",
         answers: [
-            "Paris",
             "Venise",
             "Rome",
             "New York",
+            "Paris",
         ],
-        correct: 1,
+        correct: 3,
     },
     {
         question: "Quel est le film romantique le plus célèbre ?",
@@ -81,15 +81,15 @@ const questions = [
             "Dirty Dancing",
             "The Notebook",
         ],
-        correct: 1,
+        correct: 0,
     },
     {
-        question: "Quel est le plat préféré pour un dîner de Saint-Valentin ?",
+        question: "Quel mot en anglais signifie amour ?",
         answers: [
-            "Pâtes aux truffes",
-            "Pizza",
-            "Sushi",
-            "Burgers",
+            "About",
+            "Love",
+            "Myself",
+            "Friendship",
         ],
         correct: 1,
     },
@@ -101,7 +101,7 @@ const questions = [
             "Le pigeon",
             "Le chat",
         ],
-        correct: 3,
+        correct: 2,
     },
     {
         question: "Quel est le parfum de rose le plus populaire ?",
@@ -111,7 +111,7 @@ const questions = [
             "Rose jaune",
             "Rose rose",
         ],
-        correct: 1,
+        correct: 0,
     }
 ];
 
@@ -140,6 +140,9 @@ function loadQuestion(index) {
 }
 
 function checkAnswer(selectedIndex) {
+    if (responseMessageDiv.style.opacity === "1") return; // Empêche les clics multiples
+
+    // Affiche la question suivante
     const currentQuestion = questions[currentQuestionIndex];
 
     // Affiche un message selon la réponse
@@ -154,7 +157,7 @@ function checkAnswer(selectedIndex) {
     setTimeout(() => {
         currentQuestionIndex++;
         loadQuestion(currentQuestionIndex);
-    }, 2000);
+    }, 1000);
 }
 
 function showResponseMessage(message, type) {
@@ -170,11 +173,20 @@ function showResponseMessage(message, type) {
 
 function endGame() {
     gameArea.innerHTML = `
-        <div class="final-score">
-            <p>Votre score final est de : ${score}</p>
-            ${score >= 20 ? "🎉 Félicitations, vous avez gagné ! 🎉" : "😢 Vous avez perdu. Réessayez !"}
+        <div class="final-score alert alert-info text-center">
+            <h2>Fin du jeu !</h2>
+            <p>Votre score final est de : <strong>${score}</strong></p>
+            <p>${score >= 20 ? "🎉 Félicitations, vous êtes un expert en amour ! 🎉" : "😢 Vous pouvez faire mieux. Réessayez !"}</p>
+            <button class="btn btn-primary" onclick="restartGame()">Rejouer</button>
         </div>
     `;
+}
+
+function restartGame() {
+    currentQuestionIndex = 0;
+    score = 0;
+    gameArea.style.display = 'block';
+    loadQuestion(currentQuestionIndex);
 }
 
 startButton.addEventListener('click', () => {
