@@ -74,8 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("startGame").addEventListener("click", () => {
         userName = userNameInput.value.trim();
-        if (!userName) {
-            alert("Veuillez entrer votre prénom avant de commencer.");
+        if (!userName || userName.length < 2) {
+            alert("Veuillez entrer un prénom valide.");
             return;
         }
         startScreen.style.display = "none";
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         question.answers.forEach((answer, index) => {
             const button = document.createElement("button");
             button.textContent = answer;
-            button.className = "btn btn-outline-primary d-block mb-2";
+            button.className = "btn btn-outline-primary d-block mb-2 answer";
             button.addEventListener("click", () => checkAnswer(index));
             answersDiv.appendChild(button);
         });

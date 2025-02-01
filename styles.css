@@ -6,6 +6,7 @@ body {
     color: #000;
     font-family: 'Arial', sans-serif;
     text-align: center;
+    transition: background 0.5s ease-in-out;
 }
 
 /* En-tête */
@@ -97,14 +98,14 @@ body {
     padding: 10px 20px;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .answer:hover {
     background-color: #ff66cc;
     color: #fff;
+    transform: scale(1.05);
 }
-
 
 /* Message de réponse */
 .response-message {
@@ -129,4 +130,13 @@ body {
 .response-message.alert-danger {
     background-color: #f8d7da;
     color: #721c24;
+}
+
+.fadeIn {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
