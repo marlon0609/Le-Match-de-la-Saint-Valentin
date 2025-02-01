@@ -4,24 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Match de la Saint-Valentin</title>
-    <!-- Favicon -->
     <link rel="icon" href="src/Love.png" type="image/png">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Styles personnalisés -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- En-tête -->
-    <div class="container text-center py-4">
+    <div class="container text-center py-4" id="startScreen">
         <div class="valentine-header">
             <h1 class="title">💖 Le Match de la Saint-Valentin 💖</h1>
             <p class="description">Testez vos connaissances romantiques et amusez-vous avec ce quiz spécial !</p>
+            <input type="text" id="userName" class="form-control mb-3" placeholder="Entrez votre prénom">
+            <button class="btn btn-danger btn-lg start-button mt-3" id="startGame">💘 Commencer le jeu 💘</button>
         </div>
-        <button class="btn btn-danger btn-lg start-button mt-3" id="startGame" aria-label="Commencer le jeu">💘 Commencer le jeu 💘</button>
     </div>
 
-    <!-- Zone de jeu -->
     <div class="game-area" id="gameArea" style="display: none;">
         <div class="container py-4">
             <div class="question-section card shadow-lg p-3 mb-5 bg-body-tertiary rounded" id="questionSection">
@@ -31,30 +27,20 @@
         </div>
     </div>
 
-    <!-- Animation Lottie -->
-    <div class="img-holder text-center my-4">
-        <dotlottie-player src="https://lottie.host/0eaeb479-7254-4bcd-9cdd-1bd0d336c5c4/hfZLCHvcmM.lottie" 
-            background="transparent" 
-            speed="1" 
-            style="width: 300px; height: 300px" 
-            loop autoplay 
-            aria-label="Animation romantique pour la Saint-Valentin">
-        </dotlottie-player>
+    <div class="container text-center py-4" id="endScreen" style="display: none;">
+        <h2>Félicitations <span id="displayName"></span> !</h2>
+        <div id="scoreCircle" class="circle"></div>
+        <p><strong>Correctes :</strong> <span id="correctCount"></span></p>
+        <p><strong>Incorrectes :</strong> <span id="incorrectCount"></span></p>
+        <p><strong>Total :</strong> <span id="totalQuestions"></span></p>
+        <button id="restartGame" class="btn btn-success">🔄 Rejouer</button>
     </div>
 
-    <!-- Pied de page -->
     <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2025 Marlon_Design. Tous droits réservés. | <a href="#" class="text-decoration-none text-white">Mentions légales</a></p>
-        <div class="d-flex justify-content-center">
-            <a href="#" class="mx-2 text-white"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="mx-2 text-white"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="mx-2 text-white"><i class="bi bi-instagram"></i></a>
-        </div>
+        <p>&copy; 2025 Marlon_Design. Tous droits réservés.</p>
     </footer>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,200 +1,89 @@
-const startButton = document.getElementById('startGame');
-const gameArea = document.getElementById('gameArea');
-const questionSection = document.getElementById('questionSection');
-const questionText = document.getElementById('question');
-const answersDiv = document.getElementById('answers');
+document.addEventListener("DOMContentLoaded", () => {
+    const startScreen = document.getElementById("startScreen");
+    const gameArea = document.getElementById("gameArea");
+    const endScreen = document.getElementById("endScreen");
+    const userNameInput = document.getElementById("userName");
+    const questionText = document.getElementById("question");
+    const answersDiv = document.getElementById("answers");
+    const scoreCircle = document.getElementById("scoreCircle");
+    const correctCount = document.getElementById("correctCount");
+    const incorrectCount = document.getElementById("incorrectCount");
+    const totalQuestions = document.getElementById("totalQuestions");
+    const displayName = document.getElementById("displayName");
 
-// Ajoute un conteneur pour les messages de réponse
-const responseMessageDiv = document.createElement('div');
-document.body.appendChild(responseMessageDiv); // Ajoute le message de réponse à la page
+    let userName = "";
+    let currentQuestionIndex = 0;
+    let correctAnswers = 0;
+    let questions = [
+        {
+            question: "Quel est le cadeau le plus romantique pour la Saint-Valentin ?",
+            answers: ["Un abonnement Netflix", "Un bouquet de roses rouges", "Une boîte de chocolats", "Un poème manuscrit"],
+            correct: 1,
+        },
+        {
+            question: "Cupidon est célèbre pour avoir quelle arme ?",
+            answers: ["Un arc et des flèches", "Un pistolet laser", "Une baguette magique", "Un lance-pierre"],
+            correct: 0,
+        },
+        {
+            question: "Quelle couleur est associée à la Saint-Valentin ?",
+            answers: ["Bleu", "Vert", "Rouge", "Noir"],
+            correct: 2,
+        }
+    ];
 
-let currentQuestionIndex = 0;
-let score = 0;
-
-const questions = [
-    {
-        question: "Quel est le cadeau le plus romantique pour la Saint-Valentin ?",
-        answers: [
-            "Un abonnement Netflix",
-            "Un bouquet de roses rouges",
-            "Une boîte de chocolats",
-            "Un poème manuscrit",
-        ],
-        correct: 1,
-    },
-    {
-        question: "Cupidon est célèbre pour avoir quelle arme ?",
-        answers: [
-            "Un arc et des flèches",
-            "Un pistolet laser",
-            "Une baguette magique",
-            "Un lance-pierre",
-        ],
-        correct: 0,
-    },
-    {
-        question: "Quelle couleur est associée à la Saint-Valentin ?",
-        answers: [
-            "Bleu",
-            "Vert",
-            "Rouge",
-            "Noir",
-        ],
-        correct: 2,
-    },
-    {
-        question: "Quel est le symbole principal de la Saint-Valentin ?",
-        answers: [
-            "Le boucheon",
-            "Le cœur",
-            "La rose",
-            "Le diamant",
-        ],
-        correct: 1,
-    },
-    {
-        question: "Quelle est la date exacte de la Saint-Valentin ?",
-        answers: [
-            "14 février",
-            "1er décembre",
-            "25 décembre",
-            "31 octobre",
-        ],
-        correct: 0,
-    },
-    // Questions supplémentaires
-    {
-        question: "Quelle ville est considérée comme la ville de l'amour ?",
-        answers: [
-            "Venise",
-            "Rome",
-            "New York",
-            "Paris",
-        ],
-        correct: 3,
-    },
-    {
-        question: "Quel est le film romantique le plus célèbre ?",
-        answers: [
-            "Titanic",
-            "La La Land",
-            "Dirty Dancing",
-            "The Notebook",
-        ],
-        correct: 0,
-    },
-    {
-        question: "Quel mot en anglais signifie amour ?",
-        answers: [
-            "About",
-            "Love",
-            "Myself",
-            "Friendship",
-        ],
-        correct: 1,
-    },
-    {
-        question: "Quel est l'animal symbolisant l'amour et la fidélité ?",
-        answers: [
-            "Le chien",
-            "Le cheval",
-            "Le pigeon",
-            "Le chat",
-        ],
-        correct: 2,
-    },
-    {
-        question: "Quel est le parfum de rose le plus populaire ?",
-        answers: [
-            "Rose rouge",
-            "Rose blanche",
-            "Rose jaune",
-            "Rose rose",
-        ],
-        correct: 0,
-    }
-];
-
-
-function loadQuestion(index) {
-    if (index >= questions.length) {
-        endGame();
-        return;
-    }
-
-    const question = questions[index];
-    questionText.textContent = question.question;
-
-    // Vide les réponses précédentes
-    answersDiv.innerHTML = '';
-
-    // Génère les réponses
-    question.answers.forEach((answer, i) => {
-        const button = document.createElement('button');
-        button.textContent = answer;
-        button.className = 'btn btn-answer';
-        button.dataset.index = i;
-        button.addEventListener('click', () => checkAnswer(i));
-        answersDiv.appendChild(button);
+    document.getElementById("startGame").addEventListener("click", () => {
+        userName = userNameInput.value.trim();
+        if (!userName) {
+            alert("Veuillez entrer votre prénom avant de commencer.");
+            return;
+        }
+        startScreen.style.display = "none";
+        gameArea.style.display = "block";
+        loadQuestion();
     });
-}
 
-function checkAnswer(selectedIndex) {
-    if (responseMessageDiv.style.opacity === "1") return; // Empêche les clics multiples
-
-    // Affiche la question suivante
-    const currentQuestion = questions[currentQuestionIndex];
-
-    // Affiche un message selon la réponse
-    if (selectedIndex === currentQuestion.correct) {
-        showResponseMessage("Bonne réponse ! 🎉", "success");
-        score += 10; // Ajoute des points pour une bonne réponse
-    } else {
-        showResponseMessage("Mauvaise réponse... 😢", "danger");
+    function loadQuestion() {
+        if (currentQuestionIndex >= questions.length) {
+            endGame();
+            return;
+        }
+        const question = questions[currentQuestionIndex];
+        questionText.textContent = question.question;
+        answersDiv.innerHTML = "";
+        question.answers.forEach((answer, index) => {
+            const button = document.createElement("button");
+            button.textContent = answer;
+            button.className = "btn btn-outline-primary d-block mb-2";
+            button.addEventListener("click", () => checkAnswer(index));
+            answersDiv.appendChild(button);
+        });
     }
 
-    // Passe à la question suivante après un délai
-    setTimeout(() => {
+    function checkAnswer(selectedIndex) {
+        const question = questions[currentQuestionIndex];
+        if (selectedIndex === question.correct) {
+            correctAnswers++;
+        }
         currentQuestionIndex++;
-        loadQuestion(currentQuestionIndex);
-    }, 1000);
-}
+        loadQuestion();
+    }
 
-function showResponseMessage(message, type) {
-    responseMessageDiv.textContent = message;
-    responseMessageDiv.className = `response-message alert alert-${type}`;
-    responseMessageDiv.style.opacity = 1;
+    function endGame() {
+        gameArea.style.display = "none";
+        endScreen.style.display = "block";
+        displayName.textContent = userName;
+        const total = questions.length;
+        const percentage = Math.round((correctAnswers / total) * 100);
 
-    // Cache le message après 2 secondes
-    setTimeout(() => {
-        responseMessageDiv.style.opacity = 0;
-    }, 1500);
-}
+        scoreCircle.textContent = `${percentage}%`;
+        scoreCircle.className = `circle ${percentage >= 50 ? "green" : "red"}`;
+        correctCount.textContent = correctAnswers;
+        incorrectCount.textContent = total - correctAnswers;
+        totalQuestions.textContent = total;
+    }
 
-function endGame() {
-    gameArea.innerHTML = `
-        <div class="final-score alert alert-info text-center">
-            <h2>Fin du jeu !</h2>
-            <p>Votre score final est de : <strong>${score}</strong></p>
-            <p>${score >= 50 ? "🎉 Félicitations, vous êtes un expert en amour ! 😍" : "😢 Vous pouvez faire mieux. Réessayez !"}</p>
-            <button id="restartButton" class="btn btn-primary">Rejouer</button>
-        </div>
-    `;
-
-    // Ajoute un écouteur d'événements pour recharger la page
-    const restartButton = document.getElementById('restartButton');
-    restartButton.addEventListener('click', restartGame);
-}
-
-function restartGame() {
-    location.reload(); // Recharge la page
-}
-
-startButton.addEventListener('click', () => {
-    startButton.style.display = 'none'; // Cache le bouton "Démarrer"
-    gameArea.style.display = 'block'; // Affiche la zone de jeu
-    currentQuestionIndex = 0; // Réinitialise l'index des questions
-    score = 0; // Réinitialise le score
-    loadQuestion(currentQuestionIndex); // Charge la première question
+    document.getElementById("restartGame").addEventListener("click", () => {
+        location.reload();
+    });
 });
-
