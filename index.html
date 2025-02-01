@@ -9,16 +9,17 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Écran de démarrage avec image -->
     <div class="container text-center py-4" id="startScreen">
         <div class="valentine-header">
-            <!-- Remplacement du titre par une image -->
-            <img src="src/valentine-logo.png" alt="Le Match de la Saint-Valentin" class="img-fluid" id="gameLogo">
+            <img src="src/Le Matche Love.png" alt="Le Match de la Saint-Valentin" class="img-fluid" id="gameLogo">
             <p class="description">Testez vos connaissances romantiques et amusez-vous avec ce quiz spécial !</p>
             <input type="text" id="userName" class="form-control mb-3" placeholder="Entrez votre prénom" required>
             <button class="btn btn-danger btn-lg start-button mt-3" id="startGame">💘 Commencer le jeu 💘</button>
         </div>
     </div>
 
+    <!-- Section de jeu -->
     <div class="game-area" id="gameArea" style="display: none;">
         <div class="container py-4">
             <div class="question-section card shadow-lg p-3 mb-5 bg-body-tertiary rounded" id="questionSection">
@@ -28,6 +29,7 @@
         </div>
     </div>
 
+    <!-- Section de fin de jeu -->
     <div class="container text-center py-4" id="endScreen" style="display: none;">
         <h2>Félicitations <span id="displayName"></span> !</h2>
         <div id="scoreCircle" class="circle"></div>
@@ -35,7 +37,7 @@
         <p><strong>Incorrectes :</strong> <span id="incorrectCount"></span></p>
         <p><strong>Total :</strong> <span id="totalQuestions"></span></p>
 
-        <!-- Affichage des bonnes réponses -->
+        <!-- Liste des bonnes réponses -->
         <div id="correctAnswersList" class="my-4">
             <h3>Vos bonnes réponses :</h3>
             <ul id="goodAnswers"></ul>
@@ -44,6 +46,7 @@
         <button id="restartGame" class="btn btn-success">🔄 Rejouer</button>
     </div>
 
+    <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3 fixed-bottom">
         <p>&copy; 2025 Marlon_Design. Tous droits réservés.</p>
     </footer>
