@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const userNameInput = document.getElementById("userName");
     const questionText = document.getElementById("question");
     const answersDiv = document.getElementById("answers");
+    const responseMessageDiv = document.createElement("div");
+    document.body.appendChild(responseMessageDiv);
+    responseMessageDiv.classList.add("response-message");
+
     const scoreCircle = document.getElementById("scoreCircle");
     const correctCount = document.getElementById("correctCount");
     const incorrectCount = document.getElementById("incorrectCount");
@@ -14,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let userName = "";
     let currentQuestionIndex = 0;
     let correctAnswers = 0;
+
     let questions = [
         {
             question: "Quel est le cadeau le plus romantique pour la Saint-Valentin ?",
@@ -29,6 +34,41 @@ document.addEventListener("DOMContentLoaded", () => {
             question: "Quelle couleur est associée à la Saint-Valentin ?",
             answers: ["Bleu", "Vert", "Rouge", "Noir"],
             correct: 2,
+        },
+        {
+            question: "Quel est le symbole principal de la Saint-Valentin ?",
+            answers: ["Le cœur", "Le trèfle", "La rose", "Le diamant"],
+            correct: 0,
+        },
+        {
+            question: "Quelle est la date exacte de la Saint-Valentin ?",
+            answers: ["14 février", "1er décembre", "25 décembre", "31 octobre"],
+            correct: 0,
+        },
+        {
+            question: "Quelle ville est considérée comme la ville de l'amour ?",
+            answers: ["Venise", "Rome", "New York", "Paris"],
+            correct: 3,
+        },
+        {
+            question: "Quel est le film romantique le plus célèbre ?",
+            answers: ["Titanic", "La La Land", "Dirty Dancing", "The Notebook"],
+            correct: 0,
+        },
+        {
+            question: "Quel mot en anglais signifie amour ?",
+            answers: ["About", "Love", "Myself", "Friendship"],
+            correct: 1,
+        },
+        {
+            question: "Quel est l'animal symbolisant l'amour et la fidélité ?",
+            answers: ["Le chien", "Le cheval", "Le pigeon", "Le chat"],
+            correct: 2,
+        },
+        {
+            question: "Quel est le parfum de rose le plus populaire ?",
+            answers: ["Rose rouge", "Rose blanche", "Rose jaune", "Rose rose"],
+            correct: 0,
         }
     ];
 
@@ -51,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const question = questions[currentQuestionIndex];
         questionText.textContent = question.question;
         answersDiv.innerHTML = "";
+
         question.answers.forEach((answer, index) => {
             const button = document.createElement("button");
             button.textContent = answer;
@@ -64,9 +105,24 @@ document.addEventListener("DOMContentLoaded", () => {
         const question = questions[currentQuestionIndex];
         if (selectedIndex === question.correct) {
             correctAnswers++;
+            showResponseMessage("Bonne réponse ! 🎉", "success");
+        } else {
+            showResponseMessage("Mauvaise réponse... 😢", "danger");
         }
-        currentQuestionIndex++;
-        loadQuestion();
+        setTimeout(() => {
+            currentQuestionIndex++;
+            loadQuestion();
+        }, 1500);
+    }
+
+    function showResponseMessage(message, type) {
+        responseMessageDiv.textContent = message;
+        responseMessageDiv.className = `response-message alert alert-${type}`;
+        responseMessageDiv.style.opacity = 1;
+
+        setTimeout(() => {
+            responseMessageDiv.style.opacity = 0;
+        }, 1000);
     }
 
     function endGame() {

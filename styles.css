@@ -1,6 +1,8 @@
 /* Styles généraux */
+/* Animation de fond */
 body {
-    background: linear-gradient(120deg, #ff4d4d, #ffe6e6);
+    background: url('src/valentine-background.gif') no-repeat center center fixed;
+    background-size: cover;
     color: #000;
     font-family: 'Arial', sans-serif;
     text-align: center;
@@ -59,4 +61,72 @@ body {
 .circle.red {
     border-color: #dc3545;
     color: #dc3545;
+}
+
+/* Section de jeu */
+.question-section {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    max-width: 600px;
+    border: 3px solid #ff66cc;
+    padding: 20px;
+    text-align: center;
+}
+
+.question {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ff0000;
+}
+
+.answers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.answer {
+    background-color: #f8f9fa;
+    border: 2px solid #ff66cc;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.answer:hover {
+    background-color: #ff66cc;
+    color: #fff;
+}
+
+
+/* Message de réponse */
+.response-message {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 10px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.response-message.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.response-message.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
 }
