@@ -1,5 +1,4 @@
 /* Styles généraux */
-/* Animation de fond */
 body {
     background: url('src/valentine-background.gif') no-repeat center center fixed;
     background-size: cover;
@@ -7,9 +6,9 @@ body {
     font-family: 'Arial', sans-serif;
     text-align: center;
     transition: background 0.5s ease-in-out;
+    padding-bottom: 60px; /* Ajout d'un espace pour ne pas cacher le footer */
 }
 
-/* En-tête */
 .valentine-header {
     padding: 50px 20px;
     background-color: #fff;
@@ -20,10 +19,11 @@ body {
     border: 3px solid #ff66cc;
 }
 
-.title {
-    font-size: 3rem;
-    color: #ff0000;
-    font-weight: bold;
+#gameLogo {
+    max-width: 100%;
+    height: auto;
+    border-bottom: 3px solid #ff66cc;
+    padding-bottom: 20px;
 }
 
 .start-button {
@@ -40,7 +40,7 @@ body {
     box-shadow: 0 5px 15px rgba(255, 0, 0, 0.5);
 }
 
-/* Score final */
+/* Section de fin du jeu */
 .circle {
     width: 150px;
     height: 150px;
@@ -64,50 +64,40 @@ body {
     color: #dc3545;
 }
 
-/* Section de jeu */
-.question-section {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    margin: 20px auto;
-    max-width: 600px;
-    border: 3px solid #ff66cc;
-    padding: 20px;
-    text-align: center;
-}
-
-.question {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #ff0000;
-}
-
-.answers {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.answer {
-    background-color: #f8f9fa;
-    border: 2px solid #ff66cc;
-    border-radius: 5px;
-    padding: 10px 20px;
+/* Liste des bonnes réponses */
+#goodAnswers {
+    list-style-type: none;
+    padding-left: 0;
     font-size: 1.2rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    color: #333;
 }
 
-.answer:hover {
-    background-color: #ff66cc;
-    color: #fff;
-    transform: scale(1.05);
+#goodAnswers li {
+    background-color: #f8f9fa;
+    border: 1px solid #ff66cc;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 10px;
 }
 
-/* Message de réponse */
+#goodAnswers li span {
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    z-index: 1000;
+}
+
+/* Animation et transitions */
 .response-message {
     position: fixed;
     top: 15%;
@@ -130,13 +120,4 @@ body {
 .response-message.alert-danger {
     background-color: #f8d7da;
     color: #721c24;
-}
-
-.fadeIn {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }

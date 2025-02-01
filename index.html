@@ -11,7 +11,8 @@
 <body>
     <div class="container text-center py-4" id="startScreen">
         <div class="valentine-header">
-            <h1 class="title">💖 Le Match de la Saint-Valentin 💖</h1>
+            <!-- Remplacement du titre par une image -->
+            <img src="src/valentine-logo.png" alt="Le Match de la Saint-Valentin" class="img-fluid" id="gameLogo">
             <p class="description">Testez vos connaissances romantiques et amusez-vous avec ce quiz spécial !</p>
             <input type="text" id="userName" class="form-control mb-3" placeholder="Entrez votre prénom" required>
             <button class="btn btn-danger btn-lg start-button mt-3" id="startGame">💘 Commencer le jeu 💘</button>
@@ -33,10 +34,17 @@
         <p><strong>Correctes :</strong> <span id="correctCount"></span></p>
         <p><strong>Incorrectes :</strong> <span id="incorrectCount"></span></p>
         <p><strong>Total :</strong> <span id="totalQuestions"></span></p>
+
+        <!-- Affichage des bonnes réponses -->
+        <div id="correctAnswersList" class="my-4">
+            <h3>Vos bonnes réponses :</h3>
+            <ul id="goodAnswers"></ul>
+        </div>
+
         <button id="restartGame" class="btn btn-success">🔄 Rejouer</button>
     </div>
 
-    <footer class="bg-dark text-white text-center py-3">
+    <footer class="bg-dark text-white text-center py-3 fixed-bottom">
         <p>&copy; 2025 Marlon_Design. Tous droits réservés.</p>
     </footer>
 

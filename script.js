@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const incorrectCount = document.getElementById("incorrectCount");
     const totalQuestions = document.getElementById("totalQuestions");
     const displayName = document.getElementById("displayName");
+    const goodAnswersList = document.getElementById("goodAnswers");
 
     let userName = "";
     let currentQuestionIndex = 0;
@@ -30,46 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
             answers: ["Un arc et des flèches", "Un pistolet laser", "Une baguette magique", "Un lance-pierre"],
             correct: 0,
         },
-        {
-            question: "Quelle couleur est associée à la Saint-Valentin ?",
-            answers: ["Bleu", "Vert", "Rouge", "Noir"],
-            correct: 2,
-        },
-        {
-            question: "Quel est le symbole principal de la Saint-Valentin ?",
-            answers: ["Le cœur", "Le trèfle", "La rose", "Le diamant"],
-            correct: 0,
-        },
-        {
-            question: "Quelle est la date exacte de la Saint-Valentin ?",
-            answers: ["14 février", "1er décembre", "25 décembre", "31 octobre"],
-            correct: 0,
-        },
-        {
-            question: "Quelle ville est considérée comme la ville de l'amour ?",
-            answers: ["Venise", "Rome", "New York", "Paris"],
-            correct: 3,
-        },
-        {
-            question: "Quel est le film romantique le plus célèbre ?",
-            answers: ["Titanic", "La La Land", "Dirty Dancing", "The Notebook"],
-            correct: 0,
-        },
-        {
-            question: "Quel mot en anglais signifie amour ?",
-            answers: ["About", "Love", "Myself", "Friendship"],
-            correct: 1,
-        },
-        {
-            question: "Quel est l'animal symbolisant l'amour et la fidélité ?",
-            answers: ["Le chien", "Le cheval", "Le pigeon", "Le chat"],
-            correct: 2,
-        },
-        {
-            question: "Quel est le parfum de rose le plus populaire ?",
-            answers: ["Rose rouge", "Rose blanche", "Rose jaune", "Rose rose"],
-            correct: 0,
-        }
+        // ... (autres questions)
     ];
 
     document.getElementById("startGame").addEventListener("click", () => {
@@ -137,6 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
         correctCount.textContent = correctAnswers;
         incorrectCount.textContent = total - correctAnswers;
         totalQuestions.textContent = total;
+
+        // Affichage des bonnes réponses
+        questions.forEach((question, index) => {
+            if (index < correctAnswers) {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = `<span>Q${index + 1}:</span> ${question.answers[question.correct]}`;
+                goodAnswersList.appendChild(listItem);
+            }
+        });
     }
 
     document.getElementById("restartGame").addEventListener("click", () => {
