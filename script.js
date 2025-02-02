@@ -139,7 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
         incorrectCount.textContent = total - correctAnswers;
         totalQuestions.textContent = total;
 
-        // Affichage des bonnes réponses
         questions.forEach((question, index) => {
             if (index < correctAnswers) {
                 const listItem = document.createElement("li");
@@ -150,6 +149,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.getElementById("restartGame").addEventListener("click", () => {
-        location.reload();
+        currentQuestionIndex = 0;
+        correctAnswers = 0;
+        loadQuestion();
+        endScreen.style.display = "none";
+        gameArea.style.display = "block";
     });
 });

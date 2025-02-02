@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Testez vos connaissances romantiques avec ce quiz spécial Saint-Valentin !">
     <title>Le Match de la Saint-Valentin</title>
     <link rel="icon" href="src/Love.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -37,17 +38,18 @@
         <p><strong>Incorrectes :</strong> <span id="incorrectCount"></span></p>
         <p><strong>Total :</strong> <span id="totalQuestions"></span></p>
 
-        <!-- Liste des bonnes réponses -->
-        <div id="correctAnswersList" class="my-4">
-            <h3>Vos bonnes réponses :</h3>
+        <!-- Liste des réponses -->
+        <button class="btn btn-info mt-3" id="showAnswers">📜 Voir les réponses</button>
+        <div id="answersList" class="my-4" style="display: none;">
+            <h3>Réponses :</h3>
             <ul id="goodAnswers"></ul>
         </div>
 
-        <button id="restartGame" class="btn btn-success">🔄 Rejouer</button>
+        <button id="restartGame" class="btn btn-success mt-3">🔄 Rejouer</button>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 fixed-bottom">
+    <footer class="bg-dark text-white text-center py-3">
         <p>&copy; 2025 Marlon_Design. Tous droits réservés.</p>
     </footer>
 

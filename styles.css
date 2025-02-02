@@ -6,9 +6,10 @@ body {
     font-family: 'Arial', sans-serif;
     text-align: center;
     transition: background 0.5s ease-in-out;
-    padding-bottom: 60px; /* Ajout d'un espace pour ne pas cacher le footer */
+    padding-bottom: 80px;
 }
 
+/* En-tête du jeu */
 .valentine-header {
     padding: 50px 20px;
     background-color: #fff;
@@ -26,6 +27,7 @@ body {
     padding-bottom: 20px;
 }
 
+/* Bouton de démarrage */
 .start-button {
     background-color: #ff0000;
     color: #fff;
@@ -33,6 +35,7 @@ body {
     padding: 15px 30px;
     font-size: 1.2rem;
     border-radius: 50px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .start-button:hover {
@@ -40,7 +43,7 @@ body {
     box-shadow: 0 5px 15px rgba(255, 0, 0, 0.5);
 }
 
-/* Section de fin du jeu */
+/* Score final */
 .circle {
     width: 150px;
     height: 150px;
@@ -52,16 +55,19 @@ body {
     margin: 20px auto;
     font-size: 24px;
     font-weight: bold;
+    transition: transform 0.5s ease-in-out, border-color 0.5s ease-in-out;
 }
 
 .circle.green {
     border-color: #28a745;
     color: #28a745;
+    transform: scale(1.1);
 }
 
 .circle.red {
     border-color: #dc3545;
     color: #dc3545;
+    transform: scale(0.9);
 }
 
 /* Liste des bonnes réponses */
@@ -80,8 +86,21 @@ body {
     padding: 10px;
 }
 
-#goodAnswers li span {
-    font-weight: bold;
+/* Bouton d'affichage des bonnes réponses */
+#showAnswers {
+    background-color: #ff66cc;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s ease-in-out;
+}
+
+#showAnswers:hover {
+    background-color: #ff3385;
 }
 
 /* Footer */
@@ -94,10 +113,9 @@ footer {
     color: white;
     text-align: center;
     padding: 15px 0;
-    z-index: 1000;
 }
 
-/* Animation et transitions */
+/* Animation pour les réponses */
 .response-message {
     position: fixed;
     top: 15%;
