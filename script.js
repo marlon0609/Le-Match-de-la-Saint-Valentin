@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalQuestions = document.getElementById("totalQuestions");
     const displayName = document.getElementById("displayName");
     const goodAnswersList = document.getElementById("goodAnswers");
+    const showAnswersButton = document.getElementById("showAnswers");
+    const finalMessage = document.getElementById("finalMessage");
 
     let userName = "";
     let currentQuestionIndex = 0;
@@ -133,26 +135,46 @@ document.addEventListener("DOMContentLoaded", () => {
         const total = questions.length;
         const percentage = Math.round((correctAnswers / total) * 100);
 
+        // Affichage du message de fin
+        if (percentage >= 50) {
+            finalMessage.textContent = "Félicitations, vous êtes un expert en amour ! 💖";
+        } else {
+            finalMessage.textContent = "Dommage, mais vous pouvez faire mieux ! 💔";
+        }
+
         scoreCircle.textContent = `${percentage}%`;
         scoreCircle.className = `circle ${percentage >= 50 ? "green" : "red"}`;
         correctCount.textContent = correctAnswers;
         incorrectCount.textContent = total - correctAnswers;
         totalQuestions.textContent = total;
 
+        // Affichage de toutes les bonnes réponses
+        goodAnswersList.innerHTML = "";
         questions.forEach((question, index) => {
-            if (index < correctAnswers) {
-                const listItem = document.createElement("li");
-                listItem.innerHTML = `<span>Q${index + 1}:</span> ${question.answers[question.correct]}`;
-                goodAnswersList.appendChild(listItem);
-            }
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `<span>Q${index + 1}:</span> ${question.answers[question.correct]}`;
+            goodAnswersList.appendChild(listItem);
         });
     }
+
+    // Gestion du bouton "Voir les réponses"
+    showAnswersButton.addEventListener("click", () => {
+        const answersList = document.getElementById("answersList");
+        if (answersList.style.display === "none") {
+            answersList.style.display = "block";
+            showAnswersButton.textContent = "🔽 Masquer les réponses";
+        } else {
+            answersList.style.display = "none";
+            showAnswersButton.textContent = "📜 Voir les réponses";
+        }
+    });
 
     document.getElementById("restartGame").addEventListener("click", () => {
         currentQuestionIndex = 0;
         correctAnswers = 0;
-        loadQuestion();
         endScreen.style.display = "none";
         gameArea.style.display = "block";
+        goodAnswersList.innerHTML = ""; // Nettoyage des anciennes réponses
+        loadQuestion();
     });
 });

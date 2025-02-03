@@ -12,12 +12,13 @@ body {
 /* En-tête du jeu */
 .valentine-header {
     padding: 50px 20px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9); /* Ajout d'une transparence */
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     margin: 20px auto;
     max-width: 600px;
     border: 3px solid #ff66cc;
+    animation: fadeIn 1s ease-in-out;
 }
 
 #gameLogo {
@@ -25,6 +26,18 @@ body {
     height: auto;
     border-bottom: 3px solid #ff66cc;
     padding-bottom: 20px;
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Bouton de démarrage */
@@ -36,11 +49,22 @@ body {
     font-size: 1.2rem;
     border-radius: 50px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: pulse 1.5s infinite alternate;
 }
 
 .start-button:hover {
     transform: scale(1.1);
     box-shadow: 0 5px 15px rgba(255, 0, 0, 0.5);
+}
+
+/* Effet de pulsation */
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.05);
+    }
 }
 
 /* Score final */
@@ -56,18 +80,30 @@ body {
     font-size: 24px;
     font-weight: bold;
     transition: transform 0.5s ease-in-out, border-color 0.5s ease-in-out;
+    animation: fadeIn 1s ease-in-out;
 }
 
 .circle.green {
     border-color: #28a745;
     color: #28a745;
     transform: scale(1.1);
+    animation: glow 1.5s infinite alternate;
 }
 
 .circle.red {
     border-color: #dc3545;
     color: #dc3545;
     transform: scale(0.9);
+}
+
+/* Effet de glow */
+@keyframes glow {
+    from {
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(40, 167, 69, 0.8);
+    }
 }
 
 /* Liste des bonnes réponses */
@@ -84,6 +120,13 @@ body {
     border-radius: 5px;
     margin: 5px 0;
     padding: 10px;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Effet au survol des bonnes réponses */
+#goodAnswers li:hover {
+    background-color: #ffe6f2;
+    transform: scale(1.05);
 }
 
 /* Bouton d'affichage des bonnes réponses */
@@ -96,11 +139,12 @@ body {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 20px;
-    transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 #showAnswers:hover {
     background-color: #ff3385;
+    transform: scale(1.1);
 }
 
 /* Footer */
@@ -128,6 +172,7 @@ footer {
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .response-message.alert-success {
@@ -138,4 +183,22 @@ footer {
 .response-message.alert-danger {
     background-color: #f8d7da;
     color: #721c24;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .valentine-header {
+        max-width: 90%;
+    }
+
+    .start-button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .circle {
+        width: 120px;
+        height: 120px;
+        font-size: 20px;
+    }
 }

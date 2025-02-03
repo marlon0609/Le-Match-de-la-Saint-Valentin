@@ -31,21 +31,23 @@
     </div>
 
     <!-- Section de fin de jeu -->
-    <div class="container text-center py-4" id="endScreen" style="display: none;">
-        <h2>Félicitations <span id="displayName"></span> !</h2>
-        <div id="scoreCircle" class="circle"></div>
-        <p><strong>Correctes :</strong> <span id="correctCount"></span></p>
-        <p><strong>Incorrectes :</strong> <span id="incorrectCount"></span></p>
-        <p><strong>Total :</strong> <span id="totalQuestions"></span></p>
+    <div class="container py-4" id="endScreen" style="display: none;">
+        <div class="card shadow-lg p-4 mb-5 bg-body-tertiary rounded text-center">
+            <h2 id="finalMessage"></h2>
+            <div id="scoreCircle" class="circle"></div>
+            <p><strong>Correctes :</strong> <span id="correctCount"></span></p>
+            <p><strong>Incorrectes :</strong> <span id="incorrectCount"></span></p>
+            <p><strong>Total :</strong> <span id="totalQuestions"></span></p>
 
-        <!-- Liste des réponses -->
-        <button class="btn btn-info mt-3" id="showAnswers">📜 Voir les réponses</button>
-        <div id="answersList" class="my-4" style="display: none;">
-            <h3>Réponses :</h3>
-            <ul id="goodAnswers"></ul>
+            <!-- Liste des réponses -->
+            <button class="btn btn-info mt-3" id="showAnswers">📜 Voir les réponses</button>
+            <div id="answersList" class="my-4" style="display: none;">
+                <h3>Réponses :</h3>
+                <ul id="goodAnswers"></ul>
+            </div>
+
+            <button id="restartGame" class="btn btn-success mt-3">🔄 Rejouer</button>
         </div>
-
-        <button id="restartGame" class="btn btn-success mt-3">🔄 Rejouer</button>
     </div>
 
     <!-- Footer -->
