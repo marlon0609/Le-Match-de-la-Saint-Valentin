@@ -7,14 +7,15 @@ body {
     text-align: center;
     transition: background 0.5s ease-in-out;
     padding-bottom: 80px;
+    min-height: 100vh;
 }
 
 /* En-tête du jeu */
 .valentine-header {
     padding: 50px 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Ajout d'une transparence */
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     margin: 20px auto;
     max-width: 600px;
     border: 3px solid #ff66cc;
@@ -26,9 +27,10 @@ body {
     height: auto;
     border-bottom: 3px solid #ff66cc;
     padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 
-/* Animation d'apparition */
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -40,24 +42,6 @@ body {
     }
 }
 
-/* Bouton de démarrage */
-.start-button {
-    background-color: #ff0000;
-    color: #fff;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    border-radius: 50px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: pulse 1.5s infinite alternate;
-}
-
-.start-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.5);
-}
-
-/* Effet de pulsation */
 @keyframes pulse {
     from {
         transform: scale(1);
@@ -65,6 +49,63 @@ body {
     to {
         transform: scale(1.05);
     }
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(40, 167, 69, 0.8);
+    }
+}
+
+/* Boutons */
+.start-button {
+    background-color: #ff0066;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    animation: pulse 1.5s infinite alternate;
+}
+
+.start-button:hover {
+    transform: scale(1.1);
+    background-color: #ff1a75;
+    box-shadow: 0 5px 15px rgba(255, 0, 102, 0.5);
+}
+
+/* Zone de jeu */
+.game-area {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.question-section {
+    background-color: rgba(255, 255, 255, 0.95);
+    transition: all 0.3s ease;
+}
+
+.question-section:hover {
+    transform: translateY(-5px);
+}
+
+/* Réponses */
+.answers button {
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin: 10px 0;
+    padding: 15px;
+}
+
+.answers button:hover:not([disabled]) {
+    transform: translateX(10px);
+    background-color: #ff66cc;
+    color: white;
+    border-color: #ff66cc;
 }
 
 /* Score final */
@@ -79,8 +120,7 @@ body {
     margin: 20px auto;
     font-size: 24px;
     font-weight: bold;
-    transition: transform 0.5s ease-in-out, border-color 0.5s ease-in-out;
-    animation: fadeIn 1s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .circle.green {
@@ -96,55 +136,44 @@ body {
     transform: scale(0.9);
 }
 
-/* Effet de glow */
-@keyframes glow {
-    from {
-        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
-    }
-    to {
-        box-shadow: 0 0 20px rgba(40, 167, 69, 0.8);
-    }
-}
-
-/* Liste des bonnes réponses */
-#goodAnswers {
-    list-style-type: none;
-    padding-left: 0;
-    font-size: 1.2rem;
-    color: #333;
-}
-
-#goodAnswers li {
+/* Liste des réponses */
+.answer-history-item {
     background-color: #f8f9fa;
     border: 1px solid #ff66cc;
-    border-radius: 5px;
-    margin: 5px 0;
-    padding: 10px;
-    transition: background 0.3s ease-in-out;
+    transition: all 0.3s ease;
 }
 
-/* Effet au survol des bonnes réponses */
-#goodAnswers li:hover {
+.answer-history-item:hover {
     background-color: #ffe6f2;
-    transform: scale(1.05);
+    transform: translateX(10px);
 }
 
-/* Bouton d'affichage des bonnes réponses */
-#showAnswers {
-    background-color: #ff66cc;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1.2rem;
+/* Messages de réponse */
+.response-message {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 10px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Barre de progression */
+.progress {
+    height: 10px;
+    background-color: #f8f9fa;
     border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    margin-bottom: 20px;
 }
 
-#showAnswers:hover {
-    background-color: #ff3385;
-    transform: scale(1.1);
+.progress-bar {
+    transition: width 0.3s ease;
+    background-color: #ff66cc;
 }
 
 /* Footer */
@@ -153,42 +182,18 @@ footer {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #333;
+    background-color: rgba(33, 37, 41, 0.9);
+    backdrop-filter: blur(5px);
     color: white;
-    text-align: center;
     padding: 15px 0;
-}
-
-/* Animation pour les réponses */
-.response-message {
-    position: fixed;
-    top: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 15px 20px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border-radius: 10px;
     z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-    animation: fadeIn 0.5s ease-in-out;
 }
 
-.response-message.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.response-message.alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
     .valentine-header {
-        max-width: 90%;
+        margin: 10px;
+        padding: 30px 15px;
     }
 
     .start-button {
@@ -200,5 +205,15 @@ footer {
         width: 120px;
         height: 120px;
         font-size: 20px;
+    }
+
+    .answers button {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .response-message {
+        font-size: 1.2rem;
+        padding: 10px 20px;
     }
 }

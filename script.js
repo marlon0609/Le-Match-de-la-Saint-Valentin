@@ -13,16 +13,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const correctCount = document.getElementById("correctCount");
     const incorrectCount = document.getElementById("incorrectCount");
     const totalQuestions = document.getElementById("totalQuestions");
-    const displayName = document.getElementById("displayName");
     const goodAnswersList = document.getElementById("goodAnswers");
     const showAnswersButton = document.getElementById("showAnswers");
     const finalMessage = document.getElementById("finalMessage");
+    const shareScoreButton = document.getElementById("shareScore");
 
     let userName = "";
     let currentQuestionIndex = 0;
     let correctAnswers = 0;
+    let answersHistory = [];
 
-    let questions = [
+    const questions = [
         {
             question: "Quel est le cadeau le plus romantique pour la Saint-Valentin ?",
             answers: ["Un abonnement Netflix", "Un bouquet de roses rouges", "Une boîte de chocolats", "Un poème manuscrit"],
@@ -75,12 +76,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     ];
 
+    function validateUserName(name) {
+        return name.length >= 2;
+    }
+
     document.getElementById("startGame").addEventListener("click", () => {
         userName = userNameInput.value.trim();
-        if (!userName || userName.length < 2) {
-            alert("Veuillez entrer un prénom valide.");
+        if (!validateUserName(userName)) {
+            userNameInput.classList.add("is-invalid");
             return;
         }
+        userNameInput.classList.remove("is-invalid");
         startScreen.style.display = "none";
         gameArea.style.display = "block";
         loadQuestion();
@@ -91,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
             endGame();
             return;
         }
+
         const question = questions[currentQuestionIndex];
         questionText.textContent = question.question;
         answersDiv.innerHTML = "";
@@ -98,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         question.answers.forEach((answer, index) => {
             const button = document.createElement("button");
             button.textContent = answer;
-            button.className = "btn btn-outline-primary d-block mb-2 answer";
+            button.className = "btn btn-outline-primary d-block w-100 mb-2 answer";
             button.addEventListener("click", () => checkAnswer(index));
             answersDiv.appendChild(button);
         });
@@ -106,12 +113,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function checkAnswer(selectedIndex) {
         const question = questions[currentQuestionIndex];
-        if (selectedIndex === question.correct) {
+        const isCorrect = selectedIndex === question.correct;
+        
+        answersHistory.push({
+            question: question.question,
+            selectedAnswer: question.answers[selectedIndex],
+            correctAnswer: question.answers[question.correct],
+            isCorrect: isCorrect
+        });
+
+        if (isCorrect) {
             correctAnswers++;
             showResponseMessage("Bonne réponse ! 🎉", "success");
         } else {
             showResponseMessage("Mauvaise réponse... 😢", "danger");
         }
+
+        // Désactiver tous les boutons après la réponse
+        const buttons = answersDiv.querySelectorAll("button");
+        buttons.forEach(button => {
+            button.disabled = true;
+            if (button.textContent === question.answers[question.correct]) {
+                button.classList.add("btn-success");
+            } else if (button.textContent === question.answers[selectedIndex] && !isCorrect) {
+                button.classList.add("btn-danger");
+            }
+        });
+
         setTimeout(() => {
             currentQuestionIndex++;
             loadQuestion();
@@ -131,16 +159,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function endGame() {
         gameArea.style.display = "none";
         endScreen.style.display = "block";
-        displayName.textContent = userName;
         const total = questions.length;
         const percentage = Math.round((correctAnswers / total) * 100);
 
-        // Affichage du message de fin
-        if (percentage >= 50) {
-            finalMessage.textContent = "Félicitations, vous êtes un expert en amour ! 💖";
-        } else {
-            finalMessage.textContent = "Dommage, mais vous pouvez faire mieux ! 💔";
-        }
+        finalMessage.innerHTML = percentage >= 50 
+            ? `Félicitations ${userName}, vous êtes un expert en amour ! 💖`
+            : `Dommage ${userName}, mais vous pouvez faire mieux ! 💔`;
 
         scoreCircle.textContent = `${percentage}%`;
         scoreCircle.className = `circle ${percentage >= 50 ? "green" : "red"}`;
@@ -148,16 +172,25 @@ document.addEventListener("DOMContentLoaded", () => {
         incorrectCount.textContent = total - correctAnswers;
         totalQuestions.textContent = total;
 
-        // Affichage de toutes les bonnes réponses
+        displayAnswerHistory();
+    }
+
+    function displayAnswerHistory() {
         goodAnswersList.innerHTML = "";
-        questions.forEach((question, index) => {
+        answersHistory.forEach((answer, index) => {
             const listItem = document.createElement("li");
-            listItem.innerHTML = `<span>Q${index + 1}:</span> ${question.answers[question.correct]}`;
+            listItem.className = "answer-history-item mb-3 p-3 rounded";
+            listItem.innerHTML = `
+                <div class="question-text fw-bold">${index + 1}. ${answer.question}</div>
+                <div class="answer-text ${answer.isCorrect ? 'text-success' : 'text-danger'}">
+                    Votre réponse: ${answer.selectedAnswer}
+                    ${!answer.isCorrect ? `<br>Bonne réponse: ${answer.correctAnswer}` : ''}
+                </div>
+            `;
             goodAnswersList.appendChild(listItem);
         });
     }
 
-    // Gestion du bouton "Voir les réponses"
     showAnswersButton.addEventListener("click", () => {
         const answersList = document.getElementById("answersList");
         if (answersList.style.display === "none") {
@@ -169,12 +202,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    shareScoreButton.addEventListener("click", () => {
+        const score = Math.round((correctAnswers / questions.length) * 100);
+        const text = `J'ai obtenu ${score}% au Quiz de la Saint-Valentin ! Peux-tu faire mieux ? 💘`;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: 'Quiz de la Saint-Valentin',
+                text: text,
+                url: window.location.href
+            }).catch(console.error);
+        } else {
+            // Fallback : copier dans le presse-papier
+            navigator.clipboard.writeText(text)
+                .then(() => alert('Score copié dans le presse-papier !'))
+                .catch(console.error);
+        }
+    });
+
     document.getElementById("restartGame").addEventListener("click", () => {
         currentQuestionIndex = 0;
         correctAnswers = 0;
+        answersHistory = [];
         endScreen.style.display = "none";
-        gameArea.style.display = "block";
-        goodAnswersList.innerHTML = ""; // Nettoyage des anciennes réponses
-        loadQuestion();
+        startScreen.style.display = "block";
+        userNameInput.value = "";
     });
 });

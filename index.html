@@ -15,7 +15,10 @@
         <div class="valentine-header">
             <img src="src/Valenting Day.png" alt="Le Match de la Saint-Valentin" class="img-fluid" id="gameLogo">
             <p class="description">Testez vos connaissances romantiques et amusez-vous avec ce quiz spécial !</p>
-            <input type="text" id="userName" class="form-control mb-3" placeholder="Entrez votre prénom" required>
+            <div class="input-group mb-3 w-75 mx-auto">
+                <input type="text" id="userName" class="form-control" placeholder="Entrez votre prénom" required>
+                <div class="invalid-feedback">Veuillez entrer un prénom valide (minimum 2 caractères)</div>
+            </div>
             <button class="btn btn-danger btn-lg start-button mt-3" id="startGame">💘 Commencer le jeu 💘</button>
         </div>
     </div>
@@ -23,6 +26,9 @@
     <!-- Section de jeu -->
     <div class="game-area" id="gameArea" style="display: none;">
         <div class="container py-4">
+            <div class="progress mb-3">
+                <div class="progress-bar bg-danger" id="progressBar" role="progressbar" style="width: 0%"></div>
+            </div>
             <div class="question-section card shadow-lg p-3 mb-5 bg-body-tertiary rounded" id="questionSection">
                 <p class="question fs-4 fw-bold" id="question">Question ici...</p>
                 <div class="answers" id="answers"></div>
@@ -33,20 +39,24 @@
     <!-- Section de fin de jeu -->
     <div class="container py-4" id="endScreen" style="display: none;">
         <div class="card shadow-lg p-4 mb-5 bg-body-tertiary rounded text-center">
-            <h2 id="finalMessage"></h2>
+            <h2 id="finalMessage" class="mb-4"></h2>
             <div id="scoreCircle" class="circle"></div>
-            <p><strong>Correctes :</strong> <span id="correctCount"></span></p>
-            <p><strong>Incorrectes :</strong> <span id="incorrectCount"></span></p>
-            <p><strong>Total :</strong> <span id="totalQuestions"></span></p>
+            <div class="score-details mt-4">
+                <p><strong>Correctes :</strong> <span id="correctCount" class="badge bg-success"></span></p>
+                <p><strong>Incorrectes :</strong> <span id="incorrectCount" class="badge bg-danger"></span></p>
+                <p><strong>Total :</strong> <span id="totalQuestions" class="badge bg-primary"></span></p>
+            </div>
 
-            <!-- Liste des réponses -->
-            <button class="btn btn-info mt-3" id="showAnswers">📜 Voir les réponses</button>
-            <div id="answersList" class="my-4" style="display: none;">
-                <h3>Réponses :</h3>
-                <ul id="goodAnswers"></ul>
+            <div class="mt-4">
+                <button class="btn btn-info" id="showAnswers">📜 Voir les réponses</button>
+                <div id="answersList" class="my-4" style="display: none;">
+                    <h3>Réponses :</h3>
+                    <ul id="goodAnswers" class="list-unstyled"></ul>
+                </div>
             </div>
 
             <button id="restartGame" class="btn btn-success mt-3">🔄 Rejouer</button>
+            <button id="shareScore" class="btn btn-primary mt-3 ms-2">📱 Partager</button>
         </div>
     </div>
 
