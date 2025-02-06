@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentQuestionIndex = 0;
     let correctAnswers = 0;
     let answersHistory = [];
+    let timer;
+    let timerInterval;
+    const QUESTION_TIME = 20;
 
     const questions = [
         {
@@ -66,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             question: "Quel est l'animal symbolisant l'amour et la fidélité ?",
-            answers: ["Le chien", "Le cheval", "La Colombe", "Le chat"],
+            answers: ["Le chien", "Le cheval", "Le pigeon", "Le chat"],
             correct: 2,
         },
         {
@@ -77,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     function validateUserName(name) {
-        return name.length >= 2;
+        return name.trim().length >= 2;
     }
 
     document.getElementById("startGame").addEventListener("click", () => {
@@ -89,8 +92,59 @@ document.addEventListener("DOMContentLoaded", () => {
         userNameInput.classList.remove("is-invalid");
         startScreen.style.display = "none";
         gameArea.style.display = "block";
+        currentQuestionIndex = 0;
+        correctAnswers = 0;
+        answersHistory = [];
         loadQuestion();
     });
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        timer = QUESTION_TIME;
+        updateTimerDisplay();
+        
+        timerInterval = setInterval(() => {
+            timer--;
+            updateTimerDisplay();
+            
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                handleTimeUp();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const timerElement = document.getElementById("timer");
+        const timerBar = document.getElementById("timerBar");
+        const progress = (timer / QUESTION_TIME) * 100;
+        
+        timerElement.textContent = timer;
+        timerBar.style.background = `conic-gradient(#ff66cc ${progress}%, transparent ${progress}%)`;
+        
+        if (timer <= 5) {
+            timerElement.classList.add("timer-warning");
+        } else {
+            timerElement.classList.remove("timer-warning");
+        }
+    }
+
+    function handleTimeUp() {
+        showResponseMessage("Temps écoulé ! ⏰", "warning");
+        const question = questions[currentQuestionIndex];
+        
+        answersHistory.push({
+            question: question.question,
+            selectedAnswer: "Temps écoulé",
+            correctAnswer: question.answers[question.correct],
+            isCorrect: false
+        });
+
+        setTimeout(() => {
+            currentQuestionIndex++;
+            loadQuestion();
+        }, 1500);
+    }
 
     function loadQuestion() {
         if (currentQuestionIndex >= questions.length) {
@@ -109,56 +163,56 @@ document.addEventListener("DOMContentLoaded", () => {
             button.addEventListener("click", () => checkAnswer(index));
             answersDiv.appendChild(button);
         });
+
+        const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+        document.getElementById("progressBar").style.width = `${progress}%`;
+
+        startTimer();
     }
 
-    function checkAnswer(selectedIndex) {
-        const question = questions[currentQuestionIndex];
-        const isCorrect = selectedIndex === question.correct;
+    function createConfetti() {
+        const container = document.getElementById("confettiContainer");
+        const colors = ["#ff66cc", "#ff99cc", "#ff3399", "#ff0066", "#ffccff"];
         
-        answersHistory.push({
-            question: question.question,
-            selectedAnswer: question.answers[selectedIndex],
-            correctAnswer: question.answers[question.correct],
-            isCorrect: isCorrect
-        });
-
-        if (isCorrect) {
-            correctAnswers++;
-            showResponseMessage("Bonne réponse ! 🎉", "success");
-        } else {
-            showResponseMessage("Mauvaise réponse... 😢", "danger");
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement("div");
+            confetti.className = "confetti";
+            confetti.style.left = Math.random() * 100 + "%";
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDelay = Math.random() * 3 + "s";
+            container.appendChild(confetti);
         }
-
-        // Désactiver tous les boutons après la réponse
-        const buttons = answersDiv.querySelectorAll("button");
-        buttons.forEach(button => {
-            button.disabled = true;
-            if (button.textContent === question.answers[question.correct]) {
-                button.classList.add("btn-success");
-            } else if (button.textContent === question.answers[selectedIndex] && !isCorrect) {
-                button.classList.add("btn-danger");
-            }
-        });
-
-        setTimeout(() => {
-            currentQuestionIndex++;
-            loadQuestion();
-        }, 1500);
     }
 
-    function showResponseMessage(message, type) {
-        responseMessageDiv.textContent = message;
-        responseMessageDiv.className = `response-message alert alert-${type}`;
-        responseMessageDiv.style.opacity = 1;
+    function animateScore(score) {
+        const scoreCircle = document.getElementById("scoreCircle");
+        let currentScore = 0;
+        const duration = 2000;
+        const interval = 20;
+        const steps = duration / interval;
+        const increment = score / steps;
 
-        setTimeout(() => {
-            responseMessageDiv.style.opacity = 0;
-        }, 1000);
+        scoreCircle.textContent = "0%";
+        scoreCircle.classList.add("animate");
+
+        const animation = setInterval(() => {
+            currentScore += increment;
+            if (currentScore >= score) {
+                currentScore = score;
+                clearInterval(animation);
+                if (score >= 50) {
+                    createConfetti();
+                }
+            }
+            scoreCircle.textContent = `${Math.round(currentScore)}%`;
+        }, interval);
     }
 
     function endGame() {
+        clearInterval(timerInterval);
         gameArea.style.display = "none";
         endScreen.style.display = "block";
+        
         const total = questions.length;
         const percentage = Math.round((correctAnswers / total) * 100);
 
@@ -166,11 +220,14 @@ document.addEventListener("DOMContentLoaded", () => {
             ? `Félicitations ${userName}, vous êtes un expert en amour ! 💖`
             : `Dommage ${userName}, mais vous pouvez faire mieux ! 💔`;
 
-        scoreCircle.textContent = `${percentage}%`;
         scoreCircle.className = `circle ${percentage >= 50 ? "green" : "red"}`;
         correctCount.textContent = correctAnswers;
         incorrectCount.textContent = total - correctAnswers;
         totalQuestions.textContent = total;
+
+        setTimeout(() => {
+            animateScore(percentage);
+        }, 500);
 
         displayAnswerHistory();
     }
@@ -191,6 +248,51 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function showResponseMessage(message, type) {
+        responseMessageDiv.textContent = message;
+        responseMessageDiv.className = `response-message alert alert-${type}`;
+        responseMessageDiv.style.opacity = 1;
+
+        setTimeout(() => {
+            responseMessageDiv.style.opacity = 0;
+        }, 1000);
+    }
+
+    function checkAnswer(selectedIndex) {
+        clearInterval(timerInterval);
+        const question = questions[currentQuestionIndex];
+        const isCorrect = selectedIndex === question.correct;
+        
+        answersHistory.push({
+            question: question.question,
+            selectedAnswer: question.answers[selectedIndex],
+            correctAnswer: question.answers[question.correct],
+            isCorrect: isCorrect
+        });
+
+        if (isCorrect) {
+            correctAnswers++;
+            showResponseMessage("Bonne réponse ! 🎉", "success");
+        } else {
+            showResponseMessage("Mauvaise réponse... 😢", "danger");
+        }
+
+        const buttons = answersDiv.querySelectorAll("button");
+        buttons.forEach(button => {
+            button.disabled = true;
+            if (button.textContent === question.answers[question.correct]) {
+                button.classList.add("btn-success");
+            } else if (button.textContent === question.answers[selectedIndex] && !isCorrect) {
+                button.classList.add("btn-danger");
+            }
+        });
+
+        setTimeout(() => {
+            currentQuestionIndex++;
+            loadQuestion();
+        }, 1500);
+    }
+
     showAnswersButton.addEventListener("click", () => {
         const answersList = document.getElementById("answersList");
         if (answersList.style.display === "none") {
@@ -203,8 +305,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     shareScoreButton.addEventListener("click", () => {
-        const score = Math.round((correctAnswers / questions.length) * 100);
-        const text = `J'ai obtenu ${score}% au Quiz de la Saint-Valentin ! Peux-tu faire mieux ? 💘`;
+        const total = questions.length;
+        const percentage = Math.round((correctAnswers / total) * 100);
+        const text = `J'ai obtenu ${percentage}% au Quiz de la Saint-Valentin ! Peux-tu faire mieux ? 💘`;
         
         if (navigator.share) {
             navigator.share({
@@ -213,7 +316,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 url: window.location.href
             }).catch(console.error);
         } else {
-            // Fallback : copier dans le presse-papier
             navigator.clipboard.writeText(text)
                 .then(() => alert('Score copié dans le presse-papier !'))
                 .catch(console.error);
@@ -227,5 +329,10 @@ document.addEventListener("DOMContentLoaded", () => {
         endScreen.style.display = "none";
         startScreen.style.display = "block";
         userNameInput.value = "";
+        userNameInput.classList.remove("is-invalid");
+        const confettiContainer = document.getElementById("confettiContainer");
+        if (confettiContainer) {
+            confettiContainer.innerHTML = "";
+        }
     });
 });
