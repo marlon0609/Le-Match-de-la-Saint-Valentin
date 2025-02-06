@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             question: "Quel est l'animal symbolisant l'amour et la fidélité ?",
-            answers: ["Le chien", "Le cheval", "Le pigeon", "Le chat"],
+            answers: ["Le chien", "Le cheval", "La Colombe", "Le chat"],
             correct: 2,
         },
         {
