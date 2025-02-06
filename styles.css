@@ -174,6 +174,30 @@ body {
 .progress-bar {
     transition: width 0.3s ease;
     background-color: #ff66cc;
+    position: relative;
+}
+
+.timer-text {
+    position: absolute;
+    right: 5px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.alert-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.alert-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.alert-warning {
+    background-color: #ffc107;
+    color: black;
 }
 
 /* Footer */

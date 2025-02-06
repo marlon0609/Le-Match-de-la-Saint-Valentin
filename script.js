@@ -127,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadQuestion() {
         clearInterval(timer);
         if (currentQuestionIndex >= questions.length) {
+            clearInterval(timer);
             endGame();
             return;
         }
@@ -251,8 +252,17 @@ document.addEventListener("DOMContentLoaded", () => {
             }).catch(console.error);
         } else {
             // Fallback : copier dans le presse-papier
-            navigator.clipboard.writeText(text)
-                .then(() => alert('Score copié dans le presse-papier !'))
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showResponseMessage('Score copié ! 📋', 'success');
+            } catch (err) {
+                showResponseMessage('Échec de la copie', 'danger');
+            }
+            document.body.removeChild(textArea);
                 .catch(console.error);
         }
     });
