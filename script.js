@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             question: "Quel est l'animal symbolisant l'amour et la fidélité ?",
-            answers: ["Le chien", "Le cheval", "Le pigeon", "Le chat"],
+            answers: ["Le chien", "Le cheval", "La colombe", "Le chat"],
             correct: 2,
         },
         {
@@ -92,7 +92,40 @@ document.addEventListener("DOMContentLoaded", () => {
         loadQuestion();
     });
 
+    let timer;
+    let timeLeft = 30;
+
+    function updateTimerDisplay() {
+        const timerElement = document.getElementById("timer");
+        timerElement.textContent = timeLeft;
+        timerElement.style.width = `${(timeLeft/30)*100}%`;
+    }
+
+    function startTimer() {
+        timeLeft = 30;
+        updateTimerDisplay();
+        timer = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            if(timeLeft <= 0) {
+                clearInterval(timer);
+                showResponseMessage("Temps écoulé ! ⏳", "warning");
+                answersHistory.push({
+                    question: questions[currentQuestionIndex].question,
+                    selectedAnswer: "Aucune réponse",
+                    correctAnswer: questions[currentQuestionIndex].answers[questions[currentQuestionIndex].correct],
+                    isCorrect: false
+                });
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                }, 1500);
+            }
+        }, 1000);
+    }
+
     function loadQuestion() {
+        clearInterval(timer);
         if (currentQuestionIndex >= questions.length) {
             endGame();
             return;
@@ -101,6 +134,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const question = questions[currentQuestionIndex];
         questionText.textContent = question.question;
         answersDiv.innerHTML = "";
+        
+        startTimer();
 
         question.answers.forEach((answer, index) => {
             const button = document.createElement("button");
@@ -156,6 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1000);
     }
 
+    // Fin du jeu
     function endGame() {
         gameArea.style.display = "none";
         endScreen.style.display = "block";
@@ -175,6 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
         displayAnswerHistory();
     }
 
+    // Afficher l'historique des réponses
     function displayAnswerHistory() {
         goodAnswersList.innerHTML = "";
         answersHistory.forEach((answer, index) => {
