@@ -215,21 +215,53 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const total = questions.length;
         const percentage = Math.round((correctAnswers / total) * 100);
-
+    
         finalMessage.innerHTML = percentage >= 50 
             ? `Félicitations ${userName}, vous êtes un expert en amour ! 💖`
             : `Dommage ${userName}, mais vous pouvez faire mieux ! 💔`;
-
+    
         scoreCircle.className = `circle ${percentage >= 50 ? "green" : "red"}`;
         correctCount.textContent = correctAnswers;
         incorrectCount.textContent = total - correctAnswers;
         totalQuestions.textContent = total;
-
+    
+        // Envoyer les résultats à Google Forms
+        submitToGoogleForms(userName, correctAnswers, total, percentage, answersHistory);
+    
         setTimeout(() => {
             animateScore(percentage);
         }, 500);
-
+    
         displayAnswerHistory();
+    }
+    
+    function submitToGoogleForms(userName, correctAnswers, total, percentage, history) {
+        // Remplacez l'URL ci-dessous par l'URL de votre formulaire Google Forms
+        const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfXfO7hVr0lyTHya7JCoEBI0AV7UnuhjjFFUsvnmhao_cqBIA/formResponse?usp=header';
+        
+        // Créer un résumé des réponses
+        const answersResume = history.map(answer => 
+            `Q: ${answer.question}\nR: ${answer.selectedAnswer}\nCorrect: ${answer.isCorrect}`
+        ).join('\n\n');
+    
+        // Créer les données à envoyer
+        const formData = new FormData();
+        formData.append('entry.821432320', userName); // Remplacer XXXXX par l'ID du champ nom
+        formData.append('entry.647951827', correctAnswers); // Remplacer XXXXX par l'ID du champ score
+        formData.append('entry.205635801', percentage); // Remplacer XXXXX par l'ID du champ pourcentage
+        formData.append('entry.1244758233', answersResume); // Remplacer XXXXX par l'ID du champ réponses
+        
+        // Envoyer la date correctement (décomposée en plusieurs parties)
+        formData.append('entry.1947922380_year', year);
+        formData.append('entry.1947922380_month', month);
+        formData.append('entry.1947922380_day', day);
+    
+        // Envoyer les données
+        fetch(googleFormUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: formData
+        }).catch(error => console.error('Erreur lors de l\'envoi des données:', error));
     }
 
     function displayAnswerHistory() {
