@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     responseMessageDiv.classList.add("response-message");
 
     // Création de l'élément audio
-    const backgroundMusic = new Audio('https://www.dropbox.com/scl/fi/udyoam35007amefjx23eu/LIMO-Joggo-Clip-Officiel.mp3?rlkey=5bfc968smquog4xhpai3a240a&st=ftiis1c8&dl=0');
+    const backgroundMusic = new Audio('https://drive.google.com/file/d/1Bk2FeLPYqx04fmZhqZhaf3GZ4S44EbEw/view?usp=drive_link');
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.3; // Volume à 30%
 
@@ -41,6 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     soundButton.addEventListener('click', toggleSound);
+
+    // Lecture automatique après la première interaction
+    document.addEventListener("click", () => {
+        if (!isMusicPlaying) {
+            toggleSound();
+        }
+    }, { once: true });
 
     const scoreCircle = document.getElementById("scoreCircle");
     const correctCount = document.getElementById("correctCount");
