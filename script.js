@@ -225,8 +225,14 @@ document.addEventListener("DOMContentLoaded", () => {
         incorrectCount.textContent = total - correctAnswers;
         totalQuestions.textContent = total;
     
+        // Obtenir la date actuelle
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1; // Les mois commencent à 0
+        const day = currentDate.getDate();
+    
         // Envoyer les résultats à Google Forms
-        submitToGoogleForms(userName, correctAnswers, total, percentage, answersHistory);
+        submitToGoogleForms(userName, correctAnswers, total, percentage, answersHistory, year, month, day);
     
         setTimeout(() => {
             animateScore(percentage);
@@ -235,33 +241,30 @@ document.addEventListener("DOMContentLoaded", () => {
         displayAnswerHistory();
     }
     
-    function submitToGoogleForms(userName, correctAnswers, total, percentage, history) {
-        // Remplacez l'URL ci-dessous par l'URL de votre formulaire Google Forms
-        const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfXfO7hVr0lyTHya7JCoEBI0AV7UnuhjjFFUsvnmhao_cqBIA/formResponse?usp=header';
+    function submitToGoogleForms(userName, correctAnswers, total, percentage, history, year, month, day) {
+        const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfXfO7hVr0lyTHya7JCoEBI0AV7UnuhjjFFUsvnmhao_cqBIA/formResponse';
         
-        // Créer un résumé des réponses
         const answersResume = history.map(answer => 
             `Q: ${answer.question}\nR: ${answer.selectedAnswer}\nCorrect: ${answer.isCorrect}`
         ).join('\n\n');
     
-        // Créer les données à envoyer
         const formData = new FormData();
-        formData.append('entry.821432320', userName); // Remplacer XXXXX par l'ID du champ nom
-        formData.append('entry.647951827', correctAnswers); // Remplacer XXXXX par l'ID du champ score
-        formData.append('entry.205635801', percentage); // Remplacer XXXXX par l'ID du champ pourcentage
-        formData.append('entry.1244758233', answersResume); // Remplacer XXXXX par l'ID du champ réponses
+        formData.append('entry.821432320', userName);
+        formData.append('entry.647951827', correctAnswers.toString());
+        formData.append('entry.205635801', percentage.toString());
+        formData.append('entry.1244758233', answersResume);
         
-        // Envoyer la date correctement (décomposée en plusieurs parties)
-        formData.append('entry.1947922380_year', year);
-        formData.append('entry.1947922380_month', month);
-        formData.append('entry.1947922380_day', day);
+        formData.append('entry.1947922380_year', year.toString());
+        formData.append('entry.1947922380_month', month.toString());
+        formData.append('entry.1947922380_day', day.toString());
     
-        // Envoyer les données
         fetch(googleFormUrl, {
             method: 'POST',
             mode: 'no-cors',
             body: formData
-        }).catch(error => console.error('Erreur lors de l\'envoi des données:', error));
+        }).catch(error => {
+            console.error('Erreur lors de l\'envoi des données:', error);
+        });
     }
 
     function displayAnswerHistory() {
