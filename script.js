@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     responseMessageDiv.classList.add("response-message");
 
     // Création de l'élément audio
-    const backgroundMusic = new Audio('https://open.spotify.com/embed/track/3gextgNvDkHs14UqZCL5TR?utm_source=generator');
+    const backgroundMusic = new Audio('https://www.dropbox.com/scl/fi/udyoam35007amefjx23eu/LIMO-Joggo-Clip-Officiel.mp3?rlkey=5bfc968smquog4xhpai3a240a&st=ftiis1c8&dl=0');
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.3; // Volume à 30%
 
