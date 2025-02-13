@@ -9,6 +9,39 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(responseMessageDiv);
     responseMessageDiv.classList.add("response-message");
 
+    // Création de l'élément audio
+    const backgroundMusic = new Audio('https://open.spotify.com/embed/track/3gextgNvDkHs14UqZCL5TR?utm_source=generator');
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.3; // Volume à 30%
+
+    // Ajout du bouton de contrôle du son
+    const soundButton = document.createElement('button');
+    soundButton.innerHTML = '🔊';
+    soundButton.className = 'btn btn-outline-primary sound-button';
+    soundButton.style.position = 'fixed';
+    soundButton.style.top = '20px';
+    soundButton.style.right = '20px';
+    soundButton.style.zIndex = '1000';
+    document.body.appendChild(soundButton);
+
+    let isMusicPlaying = false;
+
+    // Gestion du son
+    function toggleSound() {
+        if (isMusicPlaying) {
+            backgroundMusic.pause();
+            soundButton.innerHTML = '🔇';
+        } else {
+            backgroundMusic.play().catch(error => {
+                console.log("Lecture automatique bloquée:", error);
+            });
+            soundButton.innerHTML = '🔊';
+        }
+        isMusicPlaying = !isMusicPlaying;
+    }
+
+    soundButton.addEventListener('click', toggleSound);
+
     const scoreCircle = document.getElementById("scoreCircle");
     const correctCount = document.getElementById("correctCount");
     const incorrectCount = document.getElementById("incorrectCount");
@@ -95,6 +128,12 @@ document.addEventListener("DOMContentLoaded", () => {
         currentQuestionIndex = 0;
         correctAnswers = 0;
         answersHistory = [];
+        
+        // Démarrer la musique au début du jeu
+        if (!isMusicPlaying) {
+            toggleSound();
+        }
+        
         loadQuestion();
     });
 
@@ -228,10 +267,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Obtenir la date actuelle
         const currentDate = new Date();
         const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1; // Les mois commencent à 0
+        const month = currentDate.getMonth() + 1;
         const day = currentDate.getDate();
     
-        // Envoyer les résultats à Google Forms
         submitToGoogleForms(userName, correctAnswers, total, percentage, answersHistory, year, month, day);
     
         setTimeout(() => {
